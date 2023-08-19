@@ -3,8 +3,6 @@ package com.littlepay;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 
-import java.io.IOException;
-
 /**
  * Hello littlePay!
  */

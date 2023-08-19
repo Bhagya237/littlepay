@@ -1,12 +1,14 @@
 package com.littlepay.dto;
 
+import com.littlepay.util.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
 @Builder
@@ -14,9 +16,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class Trip {
 
-    private Date started;
+    private DateTime started;
 
-    private Date finished;
+    private DateTime finished;
 
     private Integer duration;
 
@@ -32,5 +34,5 @@ public class Trip {
 
     private String pan;
 
-    private String status;
+    private Constants.TRIP_STATUS status;
 }

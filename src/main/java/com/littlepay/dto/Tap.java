@@ -1,11 +1,12 @@
 package com.littlepay.dto;
 
+import com.littlepay.util.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
+import lombok.ToString;
+import org.joda.time.DateTime;
 
 @Data
 @Builder
@@ -15,9 +16,9 @@ public class Tap {
 
     private Integer id;
 
-    private Date dateTime;
+    private DateTime dateTime;
 
-    private String tapType;
+    private Constants.TAP_TYPE tapType;
 
     private String stopId;
 

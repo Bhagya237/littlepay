@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class FareCalculatorImpl implements FareCalculator{
+public class FareCalculatorImpl implements FareCalculator {
 
     private final Map<String, Map<String, BigDecimal>> tripPrices = new HashMap<>();
 
@@ -24,7 +24,7 @@ public class FareCalculatorImpl implements FareCalculator{
     }
 
     @Override
-    public BigDecimal calculateFare(String tapOn, String tapOff) throws FareConfigException {
+    public BigDecimal calculateFare(String tapOn, String tapOff) {
 
         if (tapOn.equalsIgnoreCase(tapOff)) {
             return BigDecimal.ZERO;
@@ -37,7 +37,7 @@ public class FareCalculatorImpl implements FareCalculator{
     }
 
     @Override
-    public BigDecimal calculateFare(String tapOn) throws FareConfigException {
+    public BigDecimal calculateFare(String tapOn) {
 
         if (!tripPrices.containsKey(tapOn.toUpperCase())) {
             throw new FareConfigException("Fare rules not defined for the given tap on point.");

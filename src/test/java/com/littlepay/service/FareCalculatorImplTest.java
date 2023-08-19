@@ -9,7 +9,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FareCalculatorImplTest {
@@ -43,8 +45,9 @@ public class FareCalculatorImplTest {
         BigDecimal fare = calculator.calculateFare("ST1");
         assertEquals(new BigDecimal("17.0909"), fare);
     }
+
     @Test()
-    public void calculate_fare_if_tap_on_and_tap_off_fare_is_not_defined() {
+    public void calculate_fare_if_tap_on_and_tap_off_fare_are_not_defined() {
 
         Exception exception = assertThrows(FareConfigException.class, () -> {
             calculator.calculateFare("ST5", "ST3");
