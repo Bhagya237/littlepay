@@ -1,9 +1,11 @@
-package com.littlepay.service;
+package com.littlepay.service.impl;
 
 import com.littlepay.dto.Tap;
 import com.littlepay.dto.Trip;
 import com.littlepay.exceptions.FareConfigException;
 import com.littlepay.exceptions.TapSequenceException;
+import com.littlepay.service.FareCalculator;
+import com.littlepay.service.TripProcessor;
 import com.littlepay.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,9 @@ public class TripProcessorImpl implements TripProcessor {
     private final FareCalculator fareCalculator;
     private final Map<String, Tap> tapHistory = new HashMap<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Trip> processTrips(List<Tap> taps) {
         log.info("Processing trips");
@@ -47,6 +52,12 @@ public class TripProcessorImpl implements TripProcessor {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Calculates complete and cancelled trips from a list of taps.
+     *
+     * @param taps The list of taps to process.
+     * @return A list of complete and cancelled trips.
+     */
     private List<Trip> calculateCompleteAndCancelledTrips(List<Tap> taps) {
         log.info("Calculating complete and cancelled trips");
         return taps.stream().sorted(Comparator.comparing(Tap::getDateTime)) // sort by tap start time to bring taps in order
@@ -55,6 +66,11 @@ public class TripProcessorImpl implements TripProcessor {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Calculates incomplete trips based on tap history.
+     *
+     * @return A list of incomplete trips.
+     */
     private List<Trip> calculateIncompleteTrips() {
         log.info("Calculating incomplete trips");
         return tapHistory.values().stream()
@@ -62,13 +78,20 @@ public class TripProcessorImpl implements TripProcessor {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Processes a single tap and builds a corresponding Trip.
+     *
+     * @param tap The tap to process.
+     * @return The constructed Trip object, or null if tap history is not available.
+     * @throws FareConfigException If the fare configuration is invalid.
+     */
     private Trip processTrip(Tap tap) throws FareConfigException {
         log.info("Processing trip for tap: {}", tap);
         String key = generateKey(tap.getPan(), tap.getBusId(), tap.getCompanyId());
         if (tapHistory.containsKey(key)) {
             Tap firstTap = tapHistory.remove(key);
 
-            if(firstTap.getTapType().equals(Constants.TAP_TYPE.OFF)) {
+            if (firstTap.getTapType().equals(Constants.TAP_TYPE.OFF)) {
                 // invalid data coming from the file
                 throw new TapSequenceException("Invalid tap sequence");
             }
@@ -80,7 +103,14 @@ public class TripProcessorImpl implements TripProcessor {
         return null;
     }
 
-    private Trip buildTrip(Tap start, Tap end) throws FareConfigException {
+    /**
+     * Builds a Trip object based on tap data.
+     *
+     * @param start The starting tap.
+     * @param end   The ending tap (can be null for incomplete trips).
+     * @return A constructed Trip object.
+     */
+    private Trip buildTrip(Tap start, Tap end)  {
         Optional<Tap> tapEnd = Optional.ofNullable(end);
         int duration = 0;
         Constants.TRIP_STATUS tripStatus;
@@ -107,10 +137,17 @@ public class TripProcessorImpl implements TripProcessor {
                 .pan(start.getPan())
                 .status(tripStatus)
                 .build();
-        log.info("Building on start {} end {} to {}", start, end, trip);
+        log.debug("Building on start {} end {} to {}", start, end, trip);
         return trip;
     }
 
+    /**
+     * Calculates the trip type based on two taps.
+     *
+     * @param one The first tap.
+     * @param two The second tap.
+     * @return The trip status.
+     */
     private Constants.TRIP_STATUS calculateTripType(Tap one, Tap two) {
         if (two == null) {
             return Constants.TRIP_STATUS.INCOMPLETE;
@@ -121,15 +158,38 @@ public class TripProcessorImpl implements TripProcessor {
         }
     }
 
+    /**
+     * Calculates the trip type for a single tap.
+     *
+     * @param one The tap to calculate for.
+     * @return The trip status.
+     */
     private Constants.TRIP_STATUS calculateTripType(Tap one) {
         return calculateTripType(one, null);
     }
 
+    /**
+     * Calculates the duration between two DateTime instances.
+     *
+     * @param start The starting DateTime.
+     * @param end   The ending DateTime.
+     * @return The calculated duration in seconds.
+     */
     private int calculateDuration(DateTime start, DateTime end) {
         Seconds seconds = Seconds.secondsBetween(start, end);
         return seconds.getSeconds();
     }
 
+    /**
+     * Generates a key for tap history.
+     * The key is a concatenation of PAN, bus ID, and company ID.
+     * to uniquely identify a tap.
+     *
+     * @param pan       The PAN number.
+     * @param busId     The bus ID.
+     * @param companyId The company ID.
+     * @return The generated key.
+     */
     private String generateKey(String pan, String busId, String companyId) {
         return (pan + busId + companyId).toUpperCase();
     }
