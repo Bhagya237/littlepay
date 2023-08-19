@@ -1,5 +1,6 @@
 package com.littlepay.service;
 
+import com.littlepay.exceptions.FareConfigException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,21 +26,38 @@ public class FareCalculatorImplTest {
     }
 
     @Test
-    public void calculate_fare_on_cancel_trip() {
+    public void calculate_fare_on_cancel_trip() throws FareConfigException {
         BigDecimal fare = calculator.calculateFare("ST1", "ST1");
         assertEquals(BigDecimal.ZERO, fare);
     }
 
 
     @Test
-    public void calculate_fare_between_tow_stops() {
+    public void calculate_fare_between_tow_stops() throws FareConfigException {
         BigDecimal fare = calculator.calculateFare("ST1", "ST2");
         assertEquals(new BigDecimal("10.0909"), fare);
     }
 
     @Test
-    public void calculate_fare_to_return_max_amount_on_tap_on_only() {
+    public void calculate_fare_to_return_max_amount_on_tap_on_only() throws FareConfigException {
         BigDecimal fare = calculator.calculateFare("ST1");
         assertEquals(new BigDecimal("17.0909"), fare);
+    }
+    @Test()
+    public void calculate_fare_if_tap_on_and_tap_off_fare_is_not_defined() {
+
+        Exception exception = assertThrows(FareConfigException.class, () -> {
+            calculator.calculateFare("ST5", "ST3");
+        });
+        assertTrue(exception.getMessage().contains("Fare rules not defined for the given tap points."));
+    }
+
+    @Test()
+    public void calculate_fare_if_tap_on_fare_is_not_defined() {
+
+        Exception exception = assertThrows(FareConfigException.class, () -> {
+            calculator.calculateFare("ST55");
+        });
+        assertTrue(exception.getMessage().contains("Fare rules not defined for the given tap on point."));
     }
 }

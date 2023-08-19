@@ -1,5 +1,7 @@
 package com.littlepay.service;
 
+import com.littlepay.exceptions.FareConfigException;
+
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -22,23 +24,23 @@ public class FareCalculatorImpl implements FareCalculator{
     }
 
     @Override
-    public BigDecimal calculateFare(String tapOn, String tapOff) {
+    public BigDecimal calculateFare(String tapOn, String tapOff) throws FareConfigException {
 
         if (tapOn.equalsIgnoreCase(tapOff)) {
             return BigDecimal.ZERO;
         }
 
         if (!tripPrices.containsKey(tapOn.toUpperCase()) || !tripPrices.get(tapOn.toUpperCase()).containsKey(tapOff.toUpperCase())) {
-            throw new RuntimeException();
+            throw new FareConfigException("Fare rules not defined for the given tap points.");
         }
         return tripPrices.get(tapOn.toUpperCase()).get(tapOff.toUpperCase());
     }
 
     @Override
-    public BigDecimal calculateFare(String tapOn) {
+    public BigDecimal calculateFare(String tapOn) throws FareConfigException {
 
         if (!tripPrices.containsKey(tapOn.toUpperCase())) {
-            throw new RuntimeException();
+            throw new FareConfigException("Fare rules not defined for the given tap on point.");
         }
         Optional<BigDecimal> maxValue = tripPrices.get(tapOn.toUpperCase()).values().stream().max(Comparator.naturalOrder());
         return maxValue.orElse(BigDecimal.ZERO);
