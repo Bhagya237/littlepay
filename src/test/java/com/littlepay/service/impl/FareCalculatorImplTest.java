@@ -1,4 +1,4 @@
-package com.littlepay.service;
+package com.littlepay.service.impl;
 
 import com.littlepay.exceptions.FareConfigException;
 import org.junit.Before;

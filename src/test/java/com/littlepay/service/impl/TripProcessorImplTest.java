@@ -1,9 +1,9 @@
-package com.littlepay.service;
+package com.littlepay.service.impl;
 
 import com.littlepay.dto.Tap;
 import com.littlepay.dto.Trip;
-import com.littlepay.exceptions.FareConfigException;
 import com.littlepay.exceptions.TapSequenceException;
+import com.littlepay.service.FareCalculator;
 import com.littlepay.util.Constants;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -75,7 +75,7 @@ public class TripProcessorImplTest {
 
 
         Exception exception = assertThrows(TapSequenceException.class, () -> {
-             tripProcessor.processTrips(List.of(tap1, tap2));
+            tripProcessor.processTrips(List.of(tap1, tap2));
         });
         assertTrue(exception.getMessage().contains("Invalid tap sequence"));
     }
@@ -165,7 +165,6 @@ public class TripProcessorImplTest {
     }
 
 
-
     @Test
     public void single_customer_multiple_bus_trips_types() {
 
@@ -180,12 +179,12 @@ public class TripProcessorImplTest {
         Tap tap2 = Tap.builder().pan(panCustomerOne).stopId("Stop2").tapType(Constants.TAP_TYPE.OFF).dateTime(now.plusSeconds(20)).companyId("Com1").busId("Bus2").build();
 
 
-        DateTime now2 = new DateTime().plusSeconds(5);;
+        DateTime now2 = new DateTime().plusSeconds(5);
         Tap tap3 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.ON).dateTime(now2).companyId("Com1").busId("Bus1").build();
         Tap tap4 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.OFF).dateTime(now2.plusSeconds(0)).companyId("Com1").busId("Bus1").build();
 
 
-        DateTime now3 = new DateTime().plusSeconds(10);;
+        DateTime now3 = new DateTime().plusSeconds(10);
         Tap tap5 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.ON).dateTime(now3).companyId("Com1").busId("Bus3").build();
 
 
