@@ -5,7 +5,7 @@ import com.littlepay.dto.Trip;
 import com.littlepay.exceptions.FareConfigException;
 import com.littlepay.exceptions.TapSequenceException;
 import com.littlepay.service.FareCalculator;
-import com.littlepay.service.TripProcessor;
+import com.littlepay.service.TapProcessor;
 import com.littlepay.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TripProcessorImpl implements TripProcessor {
+public class TripProcessorImpl implements TapProcessor {
 
     private final FareCalculator fareCalculator;
     private final Map<String, Tap> tapHistory = new HashMap<>();
@@ -35,7 +35,7 @@ public class TripProcessorImpl implements TripProcessor {
      * {@inheritDoc}
      */
     @Override
-    public List<Trip> processTrips(List<Tap> taps) {
+    public List<Trip> processTaps(List<Tap> taps) {
         log.info("Processing trips");
 
         // Calculate complete and cancelled trips

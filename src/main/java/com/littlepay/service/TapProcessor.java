@@ -5,7 +5,7 @@ import com.littlepay.dto.Trip;
 
 import java.util.List;
 
-public interface TripProcessor {
+public interface TapProcessor {
 
     /**
      * Processes a list of taps and returns a list of corresponding trips.
@@ -13,5 +13,5 @@ public interface TripProcessor {
      * @param taps The list of taps to process.
      * @return A list of processed trips.
      */
-    List<Trip> processTrips(List<Tap> taps);
+    List<Trip> processTaps(List<Tap> taps);
 }

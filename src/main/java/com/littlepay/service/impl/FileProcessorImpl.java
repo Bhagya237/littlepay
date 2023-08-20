@@ -4,7 +4,7 @@ import com.littlepay.dto.Tap;
 import com.littlepay.dto.Trip;
 import com.littlepay.service.CsvHelper;
 import com.littlepay.service.FileProcessor;
-import com.littlepay.service.TripProcessor;
+import com.littlepay.service.TapProcessor;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.List;
 public class FileProcessorImpl implements FileProcessor {
 
     private final CsvHelper data;
-    private final TripProcessor processor;
+    private final TapProcessor processor;
 
     /**
      * {@inheritDoc}
@@ -32,7 +32,7 @@ public class FileProcessorImpl implements FileProcessor {
         List<Tap> taps = data.readData();
 
         // Process trips using the  TripProcessor
-        List<Trip> trips = processor.processTrips(taps);
+        List<Trip> trips = processor.processTaps(taps);
 
         // Write trips to CSV using the CSVHelper
         data.writeData(trips);
