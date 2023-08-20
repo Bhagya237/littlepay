@@ -30,7 +30,7 @@ public class TapProcessorImplTest {
     private FareCalculator fareCalculator;
 
     @InjectMocks
-    private TripProcessorImpl tripProcessor;
+    private TapProcessorImpl tapProcessor;
 
     @Test
     public void trip_bind_values() {
@@ -42,7 +42,7 @@ public class TapProcessorImplTest {
         Tap tap1 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.ON).dateTime(now).companyId("Com1").busId("Bus2").build();
         Tap tap2 = Tap.builder().pan(panCustomerOne).stopId("Stop2").tapType(Constants.TAP_TYPE.OFF).dateTime(now.plusSeconds(20)).companyId("Com1").busId("Bus2").build();
 
-        List<Trip> trips = tripProcessor.processTaps(List.of(tap2, tap1));
+        List<Trip> trips = tapProcessor.processTaps(List.of(tap2, tap1));
 
         assertEquals(1, trips.size());
 
@@ -75,7 +75,7 @@ public class TapProcessorImplTest {
 
 
         Exception exception = assertThrows(TapSequenceException.class, () -> {
-            tripProcessor.processTaps(List.of(tap1, tap2));
+            tapProcessor.processTaps(List.of(tap1, tap2));
         });
         assertTrue(exception.getMessage().contains("Invalid tap sequence"));
     }
@@ -89,7 +89,7 @@ public class TapProcessorImplTest {
         Tap tap1 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.ON).dateTime(now).companyId("Com1").busId("Bus2").build();
         Tap tap2 = Tap.builder().pan(panCustomerOne).stopId("Stop2").tapType(Constants.TAP_TYPE.OFF).dateTime(now.plusSeconds(20)).companyId("Com1").busId("Bus2").build();
 
-        List<Trip> trips = tripProcessor.processTaps(List.of(tap1, tap2));
+        List<Trip> trips = tapProcessor.processTaps(List.of(tap1, tap2));
 
         assertEquals(1, trips.size());
         assertEquals((Integer) 20, trips.get(0).getDuration());
@@ -104,7 +104,7 @@ public class TapProcessorImplTest {
         DateTime now = new DateTime();
         Tap tap1 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.ON).dateTime(now).companyId("Com1").busId("Bus2").build();
 
-        List<Trip> trips = tripProcessor.processTaps(List.of(tap1));
+        List<Trip> trips = tapProcessor.processTaps(List.of(tap1));
 
         assertEquals(1, trips.size());
         assertEquals((Integer) 0, trips.get(0).getDuration());
@@ -122,7 +122,7 @@ public class TapProcessorImplTest {
         Tap tap2 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.OFF).dateTime(now.plusSeconds(20)).companyId("Com1").busId("Bus2").build();
 
 
-        List<Trip> trips = tripProcessor.processTaps(List.of(tap1, tap2));
+        List<Trip> trips = tapProcessor.processTaps(List.of(tap1, tap2));
 
         assertEquals(1, trips.size());
         assertEquals(Constants.TRIP_STATUS.CANCELLED, trips.get(0).getStatus());
@@ -141,7 +141,7 @@ public class TapProcessorImplTest {
         Tap tap1 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.ON).dateTime(now).companyId("Com1").busId("Bus2").build();
         Tap tap2 = Tap.builder().pan(panCustomerOne).stopId("Stop2").tapType(Constants.TAP_TYPE.OFF).dateTime(now.plusSeconds(20)).companyId("Com1").busId("Bus2").build();
 
-        List<Trip> trips = tripProcessor.processTaps(List.of(tap1, tap2));
+        List<Trip> trips = tapProcessor.processTaps(List.of(tap1, tap2));
 
         assertEquals(1, trips.size());
         assertEquals(Constants.TRIP_STATUS.COMPLETED, trips.get(0).getStatus());
@@ -157,7 +157,7 @@ public class TapProcessorImplTest {
         DateTime now = new DateTime();
         Tap tap1 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.ON).dateTime(now).companyId("Com1").busId("Bus2").build();
 
-        List<Trip> trips = tripProcessor.processTaps(List.of(tap1));
+        List<Trip> trips = tapProcessor.processTaps(List.of(tap1));
 
         assertEquals(1, trips.size());
         assertEquals(Constants.TRIP_STATUS.INCOMPLETE, trips.get(0).getStatus());
@@ -188,7 +188,7 @@ public class TapProcessorImplTest {
         Tap tap5 = Tap.builder().pan(panCustomerOne).stopId("Stop1").tapType(Constants.TAP_TYPE.ON).dateTime(now3).companyId("Com1").busId("Bus3").build();
 
 
-        List<Trip> trips = tripProcessor.processTaps(List.of(tap1, tap2, tap5, tap3, tap4));
+        List<Trip> trips = tapProcessor.processTaps(List.of(tap1, tap2, tap5, tap3, tap4));
 
         assertEquals(3, trips.size());
         assertEquals(Constants.TRIP_STATUS.COMPLETED, trips.get(0).getStatus());
@@ -231,7 +231,7 @@ public class TapProcessorImplTest {
         Tap tap7 = Tap.builder().pan(panCustomerTwo).stopId("Stop3").tapType(Constants.TAP_TYPE.OFF).dateTime(now4.plusSeconds(20)).companyId("Com1").busId("Bus3").build();
 
 
-        List<Trip> trips = tripProcessor.processTaps(List.of(tap1, tap2, tap5, tap6, tap3, tap4, tap7));
+        List<Trip> trips = tapProcessor.processTaps(List.of(tap1, tap2, tap5, tap6, tap3, tap4, tap7));
 
         assertEquals(4, trips.size());
         assertEquals(Constants.TRIP_STATUS.COMPLETED, trips.get(0).getStatus());

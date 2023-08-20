@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TripProcessorImpl implements TapProcessor {
+public class TapProcessorImpl implements TapProcessor {
 
     private final FareCalculator fareCalculator;
     private final Map<String, Tap> tapHistory = new HashMap<>();
@@ -116,7 +116,7 @@ public class TripProcessorImpl implements TapProcessor {
      */
     private Trip buildTrip(Tap start, Tap end)  {
         Optional<Tap> tapEnd = Optional.ofNullable(end);
-        int duration = 0;
+        Integer duration = null;
         Constants.TRIP_STATUS tripStatus;
         BigDecimal fare;
 
