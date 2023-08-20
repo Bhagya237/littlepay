@@ -17,7 +17,7 @@ The LittlePay Trip Processing Application is designed to process tap data and ge
 
 ### Running the application
 
-1. create input.csv file in the root directory of the project
+1. create taps.csv file in the root directory of the project
 2. Run the following command to build the application with unit tests
    ```sh
    mvn clean compile install
@@ -26,7 +26,7 @@ The LittlePay Trip Processing Application is designed to process tap data and ge
    ```sh
     mvn spring-boot:run
     ```
-4. The application will generate output.csv in the root directory
+4. The application will generate trips.csv in the root directory
 
 ## Notes
 
