@@ -12,7 +12,7 @@ import java.util.Optional;
  * Custom OpenCSV mapping strategy for generating headers with CsvBindByName annotations.
  *
  * @param <T> The type of the bean.
- * @see <a href="https://stackoverflow.com/questions/51768071/how-to-generate-header-in-opencsv">Stack Overflow</a>
+ * @see <a href="https://stackoverflow.com/questions/45203867/opencsv-how-to-create-csv-file-from-pojo-with-custom-column-headers-and-custom">Stack Overflow</a>
  */
 public class CustomMappingStrategy<T> extends ColumnPositionMappingStrategy<T> {
 
