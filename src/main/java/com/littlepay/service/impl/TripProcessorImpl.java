@@ -73,9 +73,13 @@ public class TripProcessorImpl implements TapProcessor {
      */
     private List<Trip> calculateIncompleteTrips() {
         log.info("Calculating incomplete trips");
-        return tapHistory.values().stream()
+        List<Trip> trips = tapHistory.values().stream()
                 .map(tap -> buildTrip(tap, null))
                 .collect(Collectors.toList());
+
+        // clear the tap history
+        tapHistory.clear();
+        return trips;
     }
 
     /**
