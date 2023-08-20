@@ -52,7 +52,7 @@ public class FareCalculatorImplTest {
         Exception exception = assertThrows(FareConfigException.class, () -> {
             calculator.calculateFare("ST5", "ST3");
         });
-        assertTrue(exception.getMessage().contains("Fare rules not defined for the given tap points."));
+        assertTrue(exception.getMessage().contains("Fare rules not defined for the given tap points ST5 ST3"));
     }
 
     @Test()
@@ -61,6 +61,6 @@ public class FareCalculatorImplTest {
         Exception exception = assertThrows(FareConfigException.class, () -> {
             calculator.calculateFare("ST55");
         });
-        assertTrue(exception.getMessage().contains("Fare rules not defined for the given tap on point."));
+        assertTrue(exception.getMessage().contains("Fare rules not defined for the given tap on point ST55"));
     }
 }

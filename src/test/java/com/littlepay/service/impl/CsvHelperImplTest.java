@@ -23,7 +23,7 @@ public class CsvHelperImplTest {
 
     @Before
     public void setUp() {
-        ReflectionTestUtils.setField(csvHelper, "inputFilePath", "src/test/resources/input.csv");
+        ReflectionTestUtils.setField(csvHelper, "inputFilePath", "src/test/resources/taps.csv");
     }
 
     @Test

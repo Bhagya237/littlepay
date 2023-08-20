@@ -28,8 +28,12 @@ The LittlePay Trip Processing Application is designed to process tap data and ge
     ```
 4. The application will generate output.csv in the root directory
 
+## Notes
+
+1. The output given in the example(Tap IDs 1 &2) the duration value should be 300 seconds instead of 900 seconds
 
 ## Assumptions
+
 1. The input file is in the root directory of the project with well-formed data and without missing values
 2. The second tap in a trip is always marked OFF by the device itself
 3. The bus device clock is not changing during a trip (i.e. the clock will not reset)
@@ -41,4 +45,4 @@ The LittlePay Trip Processing Application is designed to process tap data and ge
 
 1. Removed PAN from toString values (To avoid PAN in logs), Better to introduce a masker to mask the PAN for debug logs
 2. Add more tests to cover CSV write function
-3. Integration tests
+3. Add integration tests to cover the whole application

@@ -30,7 +30,7 @@ public class FareCalculatorImpl implements FareCalculator {
         // Define fare rules for various tap on and tap off points
         addFare("Stop1", "Stop2", new BigDecimal("3.25"));
         addFare("Stop2", "Stop3", new BigDecimal("5.50"));
-        addFare("Stop1", "Stop3", new BigDecimal("3.70"));
+        addFare("Stop1", "Stop3", new BigDecimal("7.30"));
         log.debug("Fare calculation values initialized. {}", tripPrices);
     }
 
@@ -58,7 +58,7 @@ public class FareCalculatorImpl implements FareCalculator {
 
         // Check if fare rules exist for the given points
         if (!tripPrices.containsKey(tapOn.toUpperCase()) || !tripPrices.get(tapOn.toUpperCase()).containsKey(tapOff.toUpperCase())) {
-            throw new FareConfigException("Fare rules not defined for the given tap points." + tapOn + " " + tapOff);
+            throw new FareConfigException("Fare rules not defined for the given tap points " + tapOn + " " + tapOff);
         }
         return tripPrices.get(tapOn.toUpperCase()).get(tapOff.toUpperCase());
     }
