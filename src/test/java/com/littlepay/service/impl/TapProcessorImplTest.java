@@ -107,7 +107,9 @@ public class TapProcessorImplTest {
         List<Trip> trips = tapProcessor.processTaps(List.of(tap1));
 
         assertEquals(1, trips.size());
-        assertEquals((Integer) 0, trips.get(0).getDuration());
+
+        // duration is null because the trip is not completed
+        assertNull(trips.get(0).getDuration());
         assertNull(trips.get(0).getFinished());
         Mockito.verify(fareCalculator, times(1)).calculateFare("Stop1");
     }
