@@ -5,6 +5,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.Optional;
+
 
 /**
  * Custom OpenCsv converter for converting strings to DateTime objects and vice versa.
@@ -34,7 +36,7 @@ public class DateTimeConverter extends AbstractBeanField<DateTime, Integer> {
     protected String convertToWrite(Object value) {
 
         // Return empty string if value is null
-        if(value == null){
+        if(Optional.ofNullable(value).isEmpty()){
             return "";
         }
         return formatter.print((DateTime) value);

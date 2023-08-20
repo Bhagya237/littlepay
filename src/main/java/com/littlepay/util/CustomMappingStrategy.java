@@ -6,6 +6,8 @@ import com.opencsv.bean.CsvBindByName;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Optional;
+
 /**
  * Custom OpenCSV mapping strategy for generating headers with CsvBindByName annotations.
  *
@@ -45,7 +47,7 @@ public class CustomMappingStrategy<T> extends ColumnPositionMappingStrategy<T> {
      * @return The extracted header name, or an empty string if not found.
      */
     private String extractHeaderName(final BeanField<T, Integer> beanField) {
-        if (beanField == null || beanField.getField() == null || beanField.getField().getDeclaredAnnotationsByType(CsvBindByName.class).length == 0) {
+        if (Optional.ofNullable(beanField).isEmpty() || Optional.ofNullable(beanField.getField()) .isEmpty() || beanField.getField().getDeclaredAnnotationsByType(CsvBindByName.class).length == 0) {
             return StringUtils.EMPTY;
         }
 

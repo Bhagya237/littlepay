@@ -149,7 +149,7 @@ public class TripProcessorImpl implements TripProcessor {
      * @return The trip status.
      */
     private Constants.TRIP_STATUS calculateTripType(Tap one, Tap two) {
-        if (two == null) {
+        if (Optional.ofNullable(two).isEmpty()) {
             return Constants.TRIP_STATUS.INCOMPLETE;
         } else if (one.getStopId().equals(two.getStopId())) {
             return Constants.TRIP_STATUS.CANCELLED;
