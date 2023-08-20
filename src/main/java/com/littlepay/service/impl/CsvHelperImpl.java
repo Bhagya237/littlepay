@@ -66,6 +66,7 @@ public class CsvHelperImpl implements CsvHelper {
             StatefulBeanToCsv<Trip> sbc = new StatefulBeanToCsvBuilder<Trip>(writer)
                     .withApplyQuotesToAll(false)
                     .withMappingStrategy(mappingStrategy)
+                    .withLineEnd("\n")
                     .build();
             sbc.write(trips); // Write Trip objects to CSV
         }
